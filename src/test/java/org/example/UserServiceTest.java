@@ -1,23 +1,12 @@
 package org.example;
 
-import org.junit.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserServiceTest {
-    private Map<String, User> userDatabaseMock;
-//    @Before
-//    @RunWith(MockitoJUnitRunner.class)
-//    public void setup(){
-//    }
 
     @DisplayName("Test the registerUser() method for adding a new user")
     @Test
@@ -35,6 +24,17 @@ class UserServiceTest {
         userService.registerUser(user);
         assertFalse(userService.registerUser(user));
     }
+
+    @DisplayName("Test the registerUser() method for adding a user with the same username")
+    @Test
+    void registerDuplicateUser() {
+        User user = new User("Name", "Pass", "email");
+        User user2 = new User("Name", "Pass", "email");
+        UserService userService = new UserService();
+        userService.registerUser(user);
+        assertFalse(userService.registerUser(user2));
+    }
+
 
     //I personally think this is a bug, adding a null user SHOULD throw an exception
     @DisplayName("Test the registerUser() method for adding a null user")
